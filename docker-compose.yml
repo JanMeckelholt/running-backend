@@ -1,0 +1,23 @@
+services:
+  running-backend:
+    build: .
+    ports:
+      - "8000:8000"
+      - "9999:9999"
+    environment:
+      - RUNNING_BACKEND_LOGGING_LEVEL=info
+      - PORT=8000
+      - DATABASE_URL=host=postgres port=5432 dbname=running user=root password=root sslmode=disable
+      - PASSWORD_HEADER_KEY=runner_pw
+      - PASSWORD_HEADER_VALUE=9078178984966698
+    depends_on:
+      - "postgres"
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=running
+    ports:
+      - "5432:5432"
